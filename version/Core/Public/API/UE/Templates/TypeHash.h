@@ -3,8 +3,10 @@
 #pragma once
 
 #include "../BasicTypes.h"
+#include "../Misc/Crc.h"
 #include "IsEnum.h"
 #include "Tuple.h"
+
 
 /**
  * Combines two hash values to get a third.
@@ -155,4 +157,10 @@ FORCEINLINE uint32 GetTypeHash(const TTuple<Types...>& Tuple)
 FORCEINLINE uint32 GetTypeHash(const TTuple<>& Tuple)
 {
 	return 0;
+}
+
+FORCEINLINE uint32 GetTypeHash(const FString& S)
+{
+	// This must match the GetTypeHash behavior of FStringView
+	return FCrc::Strihash_DEPRECATED(S.Len(), *S);
 }
